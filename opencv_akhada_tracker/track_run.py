@@ -13,7 +13,7 @@ while True:
         rel,frame=cap.read()
         ok=tracker.init(frame,box)
         ok,newbox = tracker.update(frame)
-        print ok,newbox
+        print (ok,newbox)
         if ok:
             p1 = (int(newbox[0]), int(newbox[1]))
             p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
