@@ -20,7 +20,7 @@ button2=gpiozero.Button(14)
 led=13
 
 #selfie 
-camera = PiCamera()
+camera = picamera.PiCamera()
 camera.resolution = (160, 120)
 camera.framerate = 16
 rawCapture = PiRGBArray(camera, size=(160, 120))
