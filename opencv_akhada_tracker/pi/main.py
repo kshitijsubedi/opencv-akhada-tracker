@@ -36,7 +36,6 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       loct,area=find_blob(mask_red)
       x,y,w,h=loct
      
-
 def find_blob(blob): #returns the red colored circle
     largest_contour=0
     cont_index=0
@@ -49,7 +48,8 @@ def find_blob(blob): #returns the red colored circle
             cont_index=idx
             #if res>15 and res<18:
             #    cont_index=idx
-                              
+            # 
+            #                               
     r=(0,0,2,2)
     if len(contours) > 0:
         r = cv2.boundingRect(contours[cont_index])
@@ -63,9 +63,13 @@ def target_hist(frame):
     return hist
 
 #kam garni
+sflag=0
 
+
+if sflag=0:
+    startrotate()
 time.sleep(0.5)
-
+game()
       cv2.imshow("draw",frame)    
       rawCapture.truncate(0)  # clear
       if(cv2.waitKey(27) & 0xff == ord('q')):

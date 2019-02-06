@@ -4,22 +4,23 @@ import time
 import signal
 import picamera
 import RPi.GPIO as gpio
+import Tkinter as tk
 
 # i believe i can fly
 
 # time ra pause use garnu parxa ki kya ho?
+
 motor1=2
 motor11=3
 motor2=4
 motor22=5
-motor3=4
-motor33=6
 
-GPIO.setup(MOTOR1B, GPIO.OUT)
-GPIO.setup(MOTOR1E, GPIO.OUT)
+gpio.setup(motor1, gpio.OUT)
+gpio.setup(motor11, gpio.OUT)
 
-GPIO.setup(MOTOR2B, GPIO.OUT)
-GPIO.setup(MOTOR2E, GPIO.OUT)
+gpio.setup(motor2, gpio.OUT)
+gpio.setup(motor22, gpio.OUT)
+
 
 
 def forward():
@@ -27,9 +28,7 @@ def forward():
     gpio.output(motor11, gpio.low)
     gpio.output(motor2,gpio.high)
     gpio.output(motor22, gpio.low)
-    gpio.output(motor3,gpio.high)
-    gpio.output(motor33, gpio.low)
-
+    time.sleep(0.5)
     pass
 
 def reverse():
@@ -37,8 +36,6 @@ def reverse():
     gpio.output(motor11, gpio.high)
     gpio.output(motor2, gpio.low)
     gpio.output(motor22, gpio.high)
-    gpio.output(motor3, gpio.low)
-    gpio.output(motor33, gpio.high)
     pass
 
 def right():
@@ -46,8 +43,7 @@ def right():
     gpio.output(motor11, gpio.low)
     gpio.output(motor2,gpio.high)
     gpio.output(motor22, gpio.low)
-    gpio.output(motor3,gpio.high)
-    gpio.output(motor33, gpio.low)
+ 
     pass
 
 def left():
@@ -55,8 +51,6 @@ def left():
     gpio.output(motor11, gpio.low)
     gpio.output(motor2,gpio.high)
     gpio.output(motor22, gpio.low)
-    gpio.output(motor3,gpio.high)
-    gpio.output(motor33, gpio.low)
     pass
 
 def rotate():
@@ -64,6 +58,12 @@ def rotate():
     gpio.output(motor11, gpio.low)
     gpio.output(motor2,gpio.high)
     gpio.output(motor22, gpio.low)
-    gpio.output(motor3,gpio.high)
-    gpio.output(motor33, gpio.low)
+    pass
+def startrotate():
+    gpio.output(motor1, gpio.high)
+    gpio.output(motor11, gpio.low)
+    gpio.output(motor2,gpio.high)
+    gpio.output(motor22, gpio.low)
+
+    sflag=1
     pass

@@ -24,3 +24,4 @@ def segment_colour(frame):
     mask=cv2.dilate(mask,kern_dilate)     #Dilating
     cv2.imshow('mask',mask)
     return mask
+
