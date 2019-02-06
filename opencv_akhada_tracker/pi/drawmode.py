@@ -6,8 +6,6 @@
 # robot sidha hunxa so sidhai attack
 # black ko contour ani forward
 
-# racist? why black why not white box huh??
-
 
 # paxi lekhula code
 

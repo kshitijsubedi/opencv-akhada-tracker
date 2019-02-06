@@ -11,6 +11,7 @@
 #red matrai xutana paro ni hoina? 
 # green ra blue ni xa 2k
 
+
 def segment_colour(frame):
     hsv_roi =  cv2.cvtColor(frame, cv2.cv.CV_BGR2HSV)
     mask_1 = cv2.inRange(hsv_roi, np.array([160, 160,10]), np.array([190,255,255]))
