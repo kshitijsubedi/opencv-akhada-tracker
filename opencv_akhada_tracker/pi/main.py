@@ -20,7 +20,7 @@ camera = picamera.PiCamera()
 camera.resolution = (160, 120)
 camera.framerate = 16
 camera.start_preview()
-rawCapture = PiRGBArray(camera, size=(160, 120))
+rawCapture = picamera.array.PiRGBArray(camera, size=(160, 120))
 time.sleep(0.5)
 
 #aba image analysis 
@@ -58,20 +58,18 @@ def find_blob(blob):
     return r,largest_contour
 
 #kam garni
-sflag=0
+#sflag=0
 
 
-if sflag=0:
-    startrotate()
+#if sflag=0:
+ #   startrotate()
 time.sleep(0.5)
 game()
-      cv2.imshow("draw",frame)    
-      rawCapture.truncate(0)  # clear
-      if(cv2.waitKey(27) & 0xff == ord('q')):
-            break
+cv2.imshow("draw",frame)    
+rawCapture.truncate(0)  # clear
+if(cv2.waitKey(27) & 0xff == ord('q')):
+    break
 gpio.cleanup()
 pause()
 
-#draft
-# flag 
 
