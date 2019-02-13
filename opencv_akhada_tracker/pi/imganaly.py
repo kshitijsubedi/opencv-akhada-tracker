@@ -10,7 +10,7 @@
 
 #red matrai xutana paro ni hoina? 
 # green ra blue ni xa 2k
-
+import numpy as np
 
 def segment_colour(frame):
     hsv_roi =  cv2.cvtColor(frame, cv2.cv.CV_BGR2HSV)
