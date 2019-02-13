@@ -52,7 +52,11 @@ def stop():
       GPIO.output(MOTOR1B,GPIO.LOW)
       GPIO.output(MOTOR2E,GPIO.LOW)
       GPIO.output(MOTOR2B,GPIO.LOW)
-     
+def rotate():                       #lekhna bako
+      GPIO.output(MOTOR1E,GPIO.LOW)
+      GPIO.output(MOTOR1B,GPIO.LOW)
+      GPIO.output(MOTOR2E,GPIO.LOW)
+      GPIO.output(MOTOR2B,GPIO.LOW)   
 #Image analysis aba
 
 def segment_colour(frame): 
@@ -78,7 +82,7 @@ def find_blob(blob):
             largest_contour=area
             cont_index=idx              
     r=(0,0,0,0)
-    if len(contours) > 0:
+    if len(contours) > 2:
         r = cv2.boundingRect(contours[cont_index])
     return r,largest_contour
 
@@ -105,73 +109,27 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       flag=0
       GPIO.output(LED_PIN,GPIO.LOW)   
 
-      if(found==0):           # aba opponent vetena re kata jani ta rotate garu paro ni
+      if(found==0):   
+            print("vetena")        # aba opponent vetena re kata jani ta rotate garu paro ni
             if flag==0:
                   rightturn()
                   time.sleep(0.05)
             else:
                   leftturn()
                   time.sleep(0.05)
-            stop()
+            rotate()
             time.sleep(0.0125)
-     
+    
       elif(found==1):
+            print("vetyo")
             if(area<initial):
-                  if(distanceC<10):
-                        #if ball is too far but it detects something in front of it,then it avoid it and reaches the ball.
-                        if distanceR>=8:
-                              rightturn()
-                              time.sleep(0.00625)
-                              stop()
-                              time.sleep(0.0125)
-                              forward()
-                              time.sleep(0.00625)
-                              stop()
-                              time.sleep(0.0125)
-                              #while found==0:
-                              leftturn()
-                              time.sleep(0.00625)
-                        elif distanceL>=8:
-                              leftturn()
-                              time.sleep(0.00625)
-                              stop()
-                              time.sleep(0.0125)
-                              forward()
-                              time.sleep(0.00625)
-                              stop()
-                              time.sleep(0.0125)
-                              rightturn()
-                              time.sleep(0.00625)
-                              stop()
-                              time.sleep(0.0125)
-                        else:
-                              stop()
-                              time.sleep(0.01)
-                  else:
-                        #otherwise it move forward
-                        forward()
-                        time.sleep(0.00625)
+                  #vetyo
+
             elif(area>=initial):
                   initial2=6700
                   if(area<initial2):
-                        if(distanceC>10):
-                              #it brings coordinates of ball to center of camera's imaginary axis.
-                              if(centre_x<=-20 or centre_x>=20):
-                                    if(centre_x<0):
-                                          flag=0
-                                          rightturn()
-                                          time.sleep(0.025)
-                                    elif(centre_x>0):
-                                          flag=1
-                                          leftturn()
-                                          time.sleep(0.025)
-                              forward()
-                              time.sleep(0.00003125)
-                              stop()
-                              time.sleep(0.00625)
-                        else:
-                              stop()
-                              time.sleep(0.01)
+                        
+
 
                   else:
                         #ya chai robot agadi nai xa
@@ -179,6 +137,10 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
                         time.sleep(0.1)
                         forward()
                         time.sleep(0.1)
+
+
+
+
       cv2.imshow("draw",frame)    
       rawCapture.truncate(0)  # arko frame ko lagi clear frame lastai lang garo yesle garda 
       if(cv2.waitKey(1) & 0xff == ord('q')):
