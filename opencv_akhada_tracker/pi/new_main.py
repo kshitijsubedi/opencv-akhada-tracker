@@ -54,30 +54,33 @@ def reverse(tf):
     GPIO.output(motor22,True)
     print("rev")
     time.sleep(tf)
+    
 def search(tf):
     GPIO.output(motor1, True)
-    GPIO.output(motor2, True)
+    GPIO.output(motor2, False)
     GPIO.output(motor11,False)
-    GPIO.output(motor22,False)
+    GPIO.output(motor22,True)
     print("search")
     time.sleep(tf)
 
 def irotate(tf):
     GPIO.output(motor1, True)
-    GPIO.output(motor2, True)
+    GPIO.output(motor2, False)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
     print("irotate")
     time.sleep(tf)
+
 def left(tf):
     GPIO.output(motor1, True)
-    GPIO.output(motor2, True)
+    GPIO.output(motor2, False)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
     print("left")
     time.sleep(tf)
+
 def right(tf):
-    GPIO.output(motor1, True)
+    GPIO.output(motor1, False)
     GPIO.output(motor2, True)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
