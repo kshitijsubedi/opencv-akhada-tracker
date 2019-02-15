@@ -56,13 +56,12 @@ def reverse(tf):
     time.sleep(tf)
 
 def search(tf):
-    GPIO.output(motor1, True)
+    GGPIO.output(motor1, True)
     GPIO.output(motor2, False)
     GPIO.output(motor11,False)
     GPIO.output(motor22,True)
     print("search")
     time.sleep(tf)
-
 def irotate(tf):
     GPIO.output(motor1, True)
     GPIO.output(motor2, False)
@@ -72,12 +71,7 @@ def irotate(tf):
     time.sleep(tf)
 
 def left(tf):
-    GPIO.output(motor1, True)
-    GPIO.output(motor2, False)
-    GPIO.output(motor11,False)
-    GPIO.output(motor22,True)
-    print("left")
-    time.sleep(tf)
+    
 
 def right(tf):
     GPIO.output(motor1, False)
@@ -156,16 +150,16 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       #GPIO.output(LED_PIN,GPIO.LOW)  
       if(found==0):   
             print("vetena") 
-            search(0.5)
+            search(0.1)
     
       elif(found==1):
             print("vetyo")
             if(x<215):
-                  left(0.5)
+                  left(0.3)
             if(x>430):
-                  right(0.5)
+                  right(0.3)
             else:
-                  forward(0.5)
+                  forward(0.3)
 
       cv2.imshow("draw",frame)    
       rawCapture.truncate(0)  # arko frame ko lagi clear frame lastai lang garo yesle garda 
