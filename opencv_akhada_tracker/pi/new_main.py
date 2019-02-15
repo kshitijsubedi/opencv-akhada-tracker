@@ -74,14 +74,14 @@ def left(tf):
     GPIO.output(motor2, True)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
-    print("left)
+    print("left")
     time.sleep(tf)
 def right(tf):
     GPIO.output(motor1, True)
     GPIO.output(motor2, True)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
-    print("left)
+    print("right")
     time.sleep(tf)
 
 
