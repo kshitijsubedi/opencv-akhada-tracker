@@ -12,7 +12,7 @@ motor2=7
 motor22=11
 
 gpio.setup(motor1,gpio.OUT)
-gpio.setup(cc,gpio.OUT)
+
 gpio.setup(motor2,gpio.OUT)
 
 gpio.setup(motor11,gpio.OUT)

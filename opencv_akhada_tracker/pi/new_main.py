@@ -11,9 +11,76 @@ from move import *
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 iflag=1
+
+
+
+
+
+
 cc=13
-#Image analysis aba
-gpio.setup(cc,GPIO.OUT)
+GPIO.setup(cc,GPIO.OUT)
+
+
+
+
+
+motor1=3
+motor11=5
+motor2=7
+motor22=11
+
+GPIO.setup(motor1,GPIO.OUT)
+
+GPIO.setup(motor2,GPIO.OUT)
+
+GPIO.setup(motor11,GPIO.OUT)
+
+GPIO.setup(motor22,GPIO.OUT)
+
+
+
+def forward(tf):
+    GPIO.output(motor1, True)
+    GPIO.output(motor2, True)
+    GPIO.output(motor11,False)
+    GPIO.output(motor22,False)
+    print("for")
+    time.sleep(tf)
+
+def reverse(tf):
+    GPIO.output(motor1, False)
+    GPIO.output(motor2, False)
+    GPIO.output(motor11,True)
+    GPIO.output(motor22,True)
+    print("rev")
+    time.sleep(tf)
+def search(tf):
+    GPIO.output(motor1, True)
+    GPIO.output(motor2, True)
+    GPIO.output(motor11,False)
+    GPIO.output(motor22,False)
+    print("search")
+    time.sleep(tf)
+
+def irotate(tf):
+    GPIO.output(motor1, True)
+    GPIO.output(motor2, True)
+    GPIO.output(motor11,False)
+    GPIO.output(motor22,False)
+    print("irotate")
+    time.sleep(tf)
+
+
+
+
+
+
+
+##############################
+############################
+
+
+
 def segment_redcolour(frame): 
     hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     mask_1 = cv2.inRange(hsv_roi, np.array([160, 160,10]), np.array([190,255,255]))
