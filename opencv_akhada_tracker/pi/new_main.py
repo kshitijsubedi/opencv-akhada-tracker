@@ -69,6 +69,23 @@ def irotate(tf):
     GPIO.output(motor22,False)
     print("irotate")
     time.sleep(tf)
+def left(tf):
+    GPIO.output(motor1, True)
+    GPIO.output(motor2, True)
+    GPIO.output(motor11,False)
+    GPIO.output(motor22,False)
+    print("left)
+    time.sleep(tf)
+def left(tf):
+    GPIO.output(motor1, True)
+    GPIO.output(motor2, True)
+    GPIO.output(motor11,False)
+    GPIO.output(motor22,False)
+    print("left)
+    time.sleep(tf)
+
+
+
 
 
 
