@@ -4,59 +4,11 @@ from picamera import PiCamera
 import RPi.GPIO as GPIO
 import time
 import cv2
-import cv2.cv as cv
 import numpy as np
 
 GPIO.setmode(GPIO.BOARD)
-
-MOTOR1B=18  #Left Motor
-MOTOR1E=22
-
-MOTOR2B=21  #Right Motor
-MOTOR2E=19
-
-LED_PIN=13  #ball payo vane light on ko lagi
-
-GPIO.setup(MOTOR1B, GPIO.OUT)
-GPIO.setup(MOTOR1E, GPIO.OUT)
-
-GPIO.setup(MOTOR2B, GPIO.OUT)
-GPIO.setup(MOTOR2E, GPIO.OUT)
-
-def forward():
-      GPIO.output(MOTOR1B, GPIO.HIGH)
-      GPIO.output(MOTOR1E, GPIO.LOW)
-      GPIO.output(MOTOR2B, GPIO.HIGH)
-      GPIO.output(MOTOR2E, GPIO.LOW)
-     
-def reverse():
-      GPIO.output(MOTOR1B, GPIO.LOW)
-      GPIO.output(MOTOR1E, GPIO.HIGH)
-      GPIO.output(MOTOR2B, GPIO.LOW)
-      GPIO.output(MOTOR2E, GPIO.HIGH)
-     
-def rightturn():
-      GPIO.output(MOTOR1B,GPIO.LOW)
-      GPIO.output(MOTOR1E,GPIO.HIGH)
-      GPIO.output(MOTOR2B,GPIO.HIGH)
-      GPIO.output(MOTOR2E,GPIO.LOW)
-     
-def leftturn():
-      GPIO.output(MOTOR1B,GPIO.HIGH)
-      GPIO.output(MOTOR1E,GPIO.LOW)
-      GPIO.output(MOTOR2B,GPIO.LOW)
-      GPIO.output(MOTOR2E,GPIO.HIGH)
-
-def stop():
-      GPIO.output(MOTOR1E,GPIO.LOW)
-      GPIO.output(MOTOR1B,GPIO.LOW)
-      GPIO.output(MOTOR2E,GPIO.LOW)
-      GPIO.output(MOTOR2B,GPIO.LOW)
-def rotate():                       #lekhna bako
-      GPIO.output(MOTOR1E,GPIO.LOW)
-      GPIO.output(MOTOR1B,GPIO.LOW)
-      GPIO.output(MOTOR2E,GPIO.LOW)
-      GPIO.output(MOTOR2B,GPIO.LOW)   
+GPIO.setwarnings(False)
+  
 #Image analysis aba
 
 def segment_colour(frame): 
@@ -75,7 +27,7 @@ def segment_colour(frame):
 def find_blob(blob):
     largest_contour=0
     cont_index=0
-    contours, hierarchy = cv2.findContours(blob, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    _,contours, hierarchy = cv2.findContours(blob, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     for idx, contour in enumerate(contours):
         area=cv2.contourArea(contour)
         if (area >largest_contour) :
@@ -105,39 +57,22 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       else:
             found=1
             simg2 = cv2.rectangle(frame, (x,y), (x+w,y+h), 255,2)
-      initial=400
       flag=0
-      GPIO.output(LED_PIN,GPIO.LOW)   
-
+      #GPIO.output(LED_PIN,GPIO.LOW)   
       if(found==0):   
             print("vetena")        # aba opponent vetena re kata jani ta rotate garu paro ni
-            if flag==0:
-                  rightturn()
-                  time.sleep(0.05)
-            else:
-                  leftturn()
-                  time.sleep(0.05)
-            rotate()
-            time.sleep(0.0125)
+            #if flag==0:
+            #      rightturn()
+            #      time.sleep(0.05)
+            #else:
+            #      leftturn()
+            #      time.sleep(0.05)
+            #rotate()
+            #time.sleep(0.0125)
     
       elif(found==1):
             print("vetyo")
-            if(area<initial):
-                  #vetyo
-
-            elif(area>=initial):
-                  initial2=6700
-                  if(area<initial2):
-                        
-
-
-                  else:
-                        #ya chai robot agadi nai xa
-                        GPIO.output(LED_PIN,GPIO.HIGH)
-                        time.sleep(0.1)
-                        forward()
-                        time.sleep(0.1)
-
+            
 
 
 

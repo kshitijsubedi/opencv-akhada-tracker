@@ -35,10 +35,9 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       mask_red=segment_colour(frame)      #masking red the frame
       loct,area=find_blob(mask_red)
       x,y,w,h=loct
-
-    if (w*h)<10:
+      if (w*h)<10:
         found=0
-    else:
+      else:
         found =1
         cv2.rectangle(mask_red,(x,y),(x+w,y+h),(80,18,200),1)
         

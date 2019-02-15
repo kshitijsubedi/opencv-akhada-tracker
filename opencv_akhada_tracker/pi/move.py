@@ -4,66 +4,41 @@ import time
 import signal
 import picamera
 import RPi.GPIO as gpio
-import Tkinter as tk
-
-# i believe i can fly
-
-# time ra pause use garnu parxa ki kya ho?
-
-motor1=2
-motor11=3
-motor2=4
-motor22=5
-
-gpio.setup(motor1, gpio.OUT)
-gpio.setup(motor11, gpio.OUT)
-
-gpio.setup(motor2, gpio.OUT)
-gpio.setup(motor22, gpio.OUT)
 
 
+motor1=3
+motor11=5
+motor2=7
+motor22=11
 
-def forward():
-    gpio.output(motor1, gpio.high)
-    gpio.output(motor11, gpio.low)
-    gpio.output(motor2,gpio.high)
-    gpio.output(motor22, gpio.low)
-    time.sleep(0.5)
-    pass
+def init():
+    gpio.setup(motor1,gpio.OUT)
 
-def reverse():
-    gpio.output(motor1,gpio.low)
-    gpio.output(motor11, gpio.high)
-    gpio.output(motor2, gpio.low)
-    gpio.output(motor22, gpio.high)
-    pass
+    gpio.setup(motor2,gpio.OUT)
 
-def right():
-    gpio.output(motor1, gpio.high)
-    gpio.output(motor11, gpio.low)
-    gpio.output(motor2,gpio.high)
-    gpio.output(motor22, gpio.low)
- 
-    pass
+    gpio.setup(motor11,gpio.OUT)
 
-def left():
-    gpio.output(motor1, gpio.high)
-    gpio.output(motor11, gpio.low)
-    gpio.output(motor2,gpio.high)
-    gpio.output(motor22, gpio.low)
-    pass
+    gpio.setup(motor22,gpio.OUT)
+    gpio.output(motor11, True)
+    gpio.output(motor22, True)
 
-def rotate():
-    gpio.output(motor1, gpio.high)
-    gpio.output(motor11, gpio.low)
-    gpio.output(motor2,gpio.high)
-    gpio.output(motor22, gpio.low)
-    pass
-def startrotate():
-    gpio.output(motor1, gpio.high)
-    gpio.output(motor11, gpio.low)
-    gpio.output(motor2,gpio.high)
-    gpio.output(motor22, gpio.low)
+def forward(tf):
+    gpio.output(motor1, True)
+    gpio.output(motor2, True)
+    gpio.output(motor11,False)
+    gpio.output(motor22,False)
+    print("for")
+    time.sleep(tf)
 
-    sflag=1
-    pass
+def reverse(tf):
+    gpio.output(motor1, False)
+    gpio.output(motor2, False)
+    gpio.output(motor11,True)
+    gpio.output(motor22,True)
+    print("rev")
+    time.sleep(tf)
+
+init()
+forward(5)
+reverse(5)
+gpio.cleanup()
