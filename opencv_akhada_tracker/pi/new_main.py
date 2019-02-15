@@ -19,7 +19,7 @@ iflag=1
 
 cc=13
 GPIO.setup(cc,GPIO.OUT)
-GPIO.outpu(cc,True)
+GPIO.output(cc,True)
 
 
 
