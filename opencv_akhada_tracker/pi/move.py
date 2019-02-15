@@ -11,16 +11,15 @@ motor11=5
 motor2=7
 motor22=11
 
-def init():
-    gpio.setup(motor1,gpio.OUT)
+gpio.setup(motor1,gpio.OUT)
+gpio.setup(cc,gpio.OUT)
+gpio.setup(motor2,gpio.OUT)
 
-    gpio.setup(motor2,gpio.OUT)
+gpio.setup(motor11,gpio.OUT)
 
-    gpio.setup(motor11,gpio.OUT)
+gpio.setup(motor22,gpio.OUT)
 
-    gpio.setup(motor22,gpio.OUT)
-    gpio.output(motor11, True)
-    gpio.output(motor22, True)
+
 
 def forward(tf):
     gpio.output(motor1, True)
@@ -37,8 +36,18 @@ def reverse(tf):
     gpio.output(motor22,True)
     print("rev")
     time.sleep(tf)
+def search(tf):
+    gpio.output(motor1, True)
+    gpio.output(motor2, True)
+    gpio.output(motor11,False)
+    gpio.output(motor22,False)
+    print("search")
+    time.sleep(tf)
 
-init()
-forward(5)
-reverse(5)
-gpio.cleanup()
+def irotate(tf):
+    gpio.output(motor1, True)
+    gpio.output(motor2, True)
+    gpio.output(motor11,False)
+    gpio.output(motor22,False)
+    print("irotate")
+    time.sleep(tf)

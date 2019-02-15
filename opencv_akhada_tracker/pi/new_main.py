@@ -5,13 +5,16 @@ import RPi.GPIO as GPIO
 import time
 import cv2
 import numpy as np
+from move import *
+
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-  
+iflag=1
+cc=13
 #Image analysis aba
-
-def segment_colour(frame): 
+gpio.setup(cc,GPIO.OUT)
+def segment_redcolour(frame): 
     hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     mask_1 = cv2.inRange(hsv_roi, np.array([160, 160,10]), np.array([190,255,255]))
     ycr_roi=cv2.cvtColor(frame,cv2.COLOR_BGR2YCrCb)
@@ -32,49 +35,49 @@ def find_blob(blob):
         area=cv2.contourArea(contour)
         if (area >largest_contour) :
             largest_contour=area
-            cont_index=idx              
+            cont_index=idx                          
     r=(0,0,0,0)
     if len(contours) > 2:
         r = cv2.boundingRect(contours[cont_index])
     return r,largest_contour
 
 camera = PiCamera()
-camera.resolution = (160, 120)
+camera.resolution = (640, 480)
 camera.framerate = 16
-rawCapture = PiRGBArray(camera, size=(160, 120))
+rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.001)
- 
+if(iflag=1):
+      irotate(0.5)
+      iflag=0
+
 # aba image anlaysis kam
 for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
       frame = image.array
       frame=cv2.flip(frame,1)
       hsv1 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-      mask_red=segment_colour(frame)      #masking garnu paro red color ya bata
+
+      mask_red=segment_redcolour(frame)      #masking garnu paro red color ya bata
       loct,area=find_blob(mask_red)
-      x,y,w,h=loct     
+      x,y,w,h=loct 
+
       if (w*h) < 10:  #area kati rakhni ta??
             found=0
       else:
             found=1
             simg2 = cv2.rectangle(frame, (x,y), (x+w,y+h), 255,2)
-      flag=0
-      #GPIO.output(LED_PIN,GPIO.LOW)   
+      #GPIO.output(LED_PIN,GPIO.LOW)  
       if(found==0):   
-            print("vetena")        # aba opponent vetena re kata jani ta rotate garu paro ni
-            #if flag==0:
-            #      rightturn()
-            #      time.sleep(0.05)
-            #else:
-            #      leftturn()
-            #      time.sleep(0.05)
-            #rotate()
-            #time.sleep(0.0125)
+            print("vetena") 
+            search(0.5)
     
       elif(found==1):
             print("vetyo")
-            
-
-
+            if(x<215):
+                  left(0.5)
+            if(x>430):
+                  right(0.5)
+            else:
+                  forward(0.5)
 
       cv2.imshow("draw",frame)    
       rawCapture.truncate(0)  # arko frame ko lagi clear frame lastai lang garo yesle garda 
@@ -82,3 +85,4 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             break
 
 GPIO.cleanup()
+
