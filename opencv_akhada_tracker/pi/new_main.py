@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 import cv2
 import numpy as np
-from move import *
+
 
 
 GPIO.setmode(GPIO.BOARD)
@@ -19,7 +19,7 @@ iflag=1
 
 cc=13
 GPIO.setup(cc,GPIO.OUT)
-
+GPIO.setup(cc,True)
 
 
 
@@ -76,13 +76,14 @@ def left(tf):
     GPIO.output(motor22,False)
     print("left)
     time.sleep(tf)
-def left(tf):
+def right(tf):
     GPIO.output(motor1, True)
     GPIO.output(motor2, True)
     GPIO.output(motor11,False)
     GPIO.output(motor22,False)
     print("left)
     time.sleep(tf)
+
 
 
 
