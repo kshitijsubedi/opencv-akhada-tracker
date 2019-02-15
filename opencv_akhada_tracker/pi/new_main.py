@@ -113,7 +113,7 @@ camera.resolution = (640, 480)
 camera.framerate = 16
 rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.001)
-if(iflag=1):
+if(iflag==1):
       irotate(0.5)
       iflag=0
 
