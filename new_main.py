@@ -17,17 +17,12 @@ iflag=1
 
 
 
-cc=13
-GPIO.setup(cc,GPIO.OUT)
-GPIO.output(cc,True)
 
+motor1=37
+motor11=36
+motor2=31
+motor22=32
 
-
-x=1
-motor1=3
-motor11=5
-motor2=7
-motor22=11
 
 GPIO.setup(motor1,GPIO.OUT)
 
@@ -39,79 +34,74 @@ GPIO.setup(motor22,GPIO.OUT)
 
 
 
-def forward(tf):
-    GPIO.output(motor1, True)
-    GPIO.output(motor2, True)
-    GPIO.output(motor11,False)
-    GPIO.output(motor22,False)
+def forward(tim):
+    GPIO.output(motor1, 1)
+    GPIO.output(motor2, 1)
+    GPIO.output(motor11,0)
+    GPIO.output(motor22,0)
     print("for")
-    time.sleep(tf)
-
-def reverse(tf):
+    time.sleep(tim)
+    
+def reverse(tim):
     GPIO.output(motor1, False)
     GPIO.output(motor2, False)
     GPIO.output(motor11,True)
     GPIO.output(motor22,True)
     print("rev")
-    time.sleep(tf)
+    time.sleep(tim)
 
-def search(tf):
-      if (x%3 ==1 ):
-
-            GPIO.output(motor1, True)
-            GPIO.output(motor2, False)
-            GPIO.output(motor11,False)
-            GPIO.output(motor22,True)
-            x++
-            time.sleep(tf)
-      if (x%3==2):
-             GPIO.output(motor1, True)
-            GPIO.output(motor2, True)
-            GPIO.output(motor11,False)
-            GPIO.output(motor22,False)
-            x++
-            time.sleep(tf)
-      if(x%3==0):
-             GPIO.output(motor1, False)
-            GPIO.output(motor2, True)
-            GPIO.output(motor11,True)
-            GPIO.output(motor22,False)
-            x++
-            time.sleep(tf)
-      print("search")
-      time.sleep(tf)
-    
-def irotate(tf):
-      GPIO.output(motor1, True)
-      GPIO.output(motor2, False)
-      GPIO.output(motor11,False)
-      GPIO.output(motor22,True)
-      print("irotate")
-      time.sleep(tf)
-      
-def right(tf):
-    GPIO.output(motor1, False)
-    GPIO.output(motor2, True)
-    GPIO.output(motor11,True)
-    GPIO.output(motor22,False)
+def right(tim):
+    GPIO.output(motor1, 0)
+    GPIO.output(motor2, 1)
+    GPIO.output(motor11,1)
+    GPIO.output(motor22,0)
     print("right")
-    time.sleep(tf)
-def left(tf):
-      GPIO.output(motor1, True)
-      GPIO.output(motor2, False)
-      GPIO.output(motor11,False)
-      GPIO.output(motor22,True)
+    time.sleep(tim)
+    
+def left(tim):
+      GPIO.output(motor1, 1)
+      GPIO.output(motor2, 0)
+      GPIO.output(motor11,0)
+      GPIO.output(motor22,1)
       print("left")
-      time.sleep(tf)
+      time.sleep(tim)
+      
 
+def stop(tim):
+      GPIO.output(motor1, 0)
+      GPIO.output(motor2, 0)
+      GPIO.output(motor11,0)
+      GPIO.output(motor22,0)
+      print("stop")
+      time.sleep(tim)
+    
 
+def search():
+      global xxx
+      if (xxx == 1):
+            left(0.3)
+            print("search_left")
+             
+      if(xxx==2):
+            
+            forward(0.3)
+            print("search_Forward")    
+        
+      if (xxx==3):
+            right(0.3)
+            print("search_Right")
+           
 
-
-
-
-
-
-
+      if(xxx==4):
+            
+            forward(0.3)
+            print("search_Forward")    
+            xxx = 1
+           
+            
+      xxx=xxx+1
+      
+    
 
 
 
@@ -146,14 +136,16 @@ def find_blob(blob):
     if len(contours) > 2:
         r = cv2.boundingRect(contours[cont_index])
     return r,largest_contour
+xxx=1
 
 camera = PiCamera()
+camera= cv2.VideoCapture(0)
 camera.resolution = (640, 480)
 camera.framerate = 16
 rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.001)
 if(iflag==1):
-      irotate(0.5)
+      left(1)
       iflag=0
 
 # aba image anlaysis kam
@@ -174,17 +166,27 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       #GPIO.output(LED_PIN,GPIO.LOW)  
       if(found==0):   
             print("vetena") 
-            search(1)
+            search()
+            stop(0.1)
+            
     
       elif(found==1):
             print("vetyo")
             if(x<215):
-                  left(0.3)
-            if(x>430):
-                  right(0.3)
+                  right(0)
+                  print("corrright")
+                  #stop(0.1)
+            if(x>300):
+                   left(0)
+                   print("corrleft")
+                  #stop(0.1)
             else:
-                  forward(0.3)
-
+                  forward(0)
+                  #stop(0.1)
+            if(w*h>2000):
+                    forward(0)
+                    #stop(0.1)
+            
       cv2.imshow("draw",frame)    
       rawCapture.truncate(0)  # arko frame ko lagi clear frame lastai lang garo yesle garda 
       if(cv2.waitKey(1) & 0xff == ord('q')):
