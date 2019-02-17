@@ -17,16 +17,13 @@ ir1=11
 ir2=12
 ir3=13
 ir4=15
-GPIO.setup(ir11,GPIO.IN)
+GPIO.setup(ir1,GPIO.IN)
 GPIO.setup(ir2,GPIO.IN)
 GPIO.setup(ir3,GPIO.IN)
 GPIO.setup(ir4,GPIO.IN)
 
 
-ir11=GPIO.input(ir1)
-ir22=GPIO.input(ir2)
-ir33=GPIO.input(ir3)
-ir44=GPIO.input(ir4)
+
 
 
 
@@ -115,27 +112,45 @@ def search():
       
     
 def checkir():
+    print(".....")
+    print(ir11)
+    print(ir22)
+    print(ir33)
+    print(ir44)
+    if(ir11>0 and ir22>0 and ir33>0 and ir44>0):
+        left(0)
+        print("ir .........left sabai ir ")
+    if(ir11>0 and ir22>0):
+        right(0.5)
+        print("ir .........right 1 ra 2 ")
+    if(ir22>0 and ir33>0):
+        forward(0.5)
+        print("ir .........forward 2 ra 3 ")
+    if(ir33>0 and ir44>0):
+        left(0.5)
+        print("ir .........left 3 ra 4 ")
+    if(ir11>0 and ir44>0):
+        reverse()
+        print("ir .........reverse 1 ra 4")
     if(ir11>0):
         right(0.5)
+        print("ir .........right ")
+        print("ir11 matrai")
         
     if(ir22>0):
         forward(0.5)
-        
+        print("ir .........forward ")
+        print("ir22 atrai ")
     if(ir33>0):
         forward(0.5)
-        
+        print("ir .........forward ")
+        print("3 matrai ")
     if(ir44>0):
         left(0.5)
-    if(ir11>0 & ir22>0&ir33>0&ir44>0):
-        left(0)
-    if(ir11>0 & ir22>0):
-        right(0.5)
-    if(ir22>0 & ir33>0):
-        forward(0.5)
-    if(ir33>0&ir44>0):
-        left(0.5)
-    if(ir11>0&ir44>0):
-        reverse()
+        print("ir .........left ")
+        print("4 matrai ")
+        
+    
 
         
 
@@ -174,7 +189,6 @@ def find_blob(blob):
 xxx=1
 
 camera = PiCamera()
-camera= cv2.VideoCapture(0)
 camera.resolution = (640, 480)
 camera.framerate = 16
 rawCapture = PiRGBArray(camera, size=(640, 480))
@@ -198,12 +212,20 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       else:
             found=1
             simg2 = cv2.rectangle(frame, (x,y), (x+w,y+h), 255,2)
+
+
+
+      ir11=GPIO.input(ir1)
+      ir22=GPIO.input(ir2)
+      ir33=GPIO.input(ir3)
+      ir44=GPIO.input(ir4)      
       #GPIO.output(LED_PIN,GPIO.LOW)  
       if(found==0):   
-            print("vetena") 
-            search()
-            stop(0.1)
+            print("vetena")
             checkir()
+            #search()
+            stop(0.1)
+            
             
     
       elif(found==1):
