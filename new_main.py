@@ -13,8 +13,20 @@ GPIO.setwarnings(False)
 iflag=1
 
 
+ir1=11
+ir2=12
+ir3=13
+ir4=15
+GPIO.setup(ir11,GPIO.IN)
+GPIO.setup(ir2,GPIO.IN)
+GPIO.setup(ir3,GPIO.IN)
+GPIO.setup(ir4,GPIO.IN)
 
 
+ir11=GPIO.input(ir1)
+ir22=GPIO.input(ir2)
+ir33=GPIO.input(ir3)
+ir44=GPIO.input(ir4)
 
 
 
@@ -102,7 +114,30 @@ def search():
       xxx=xxx+1
       
     
+def checkir():
+    if(ir11>0):
+        right(0.5)
+        
+    if(ir22>0):
+        forward(0.5)
+        
+    if(ir33>0):
+        forward(0.5)
+        
+    if(ir44>0):
+        left(0.5)
+    if(ir11>0 & ir22>0&ir33>0&ir44>0):
+        left(0)
+    if(ir11>0 & ir22>0):
+        right(0.5)
+    if(ir22>0 & ir33>0):
+        forward(0.5)
+    if(ir33>0&ir44>0):
+        left(0.5)
+    if(ir11>0&ir44>0):
+        reverse()
 
+        
 
 
 ##############################
@@ -168,6 +203,7 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             print("vetena") 
             search()
             stop(0.1)
+            checkir()
             
     
       elif(found==1):
