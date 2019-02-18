@@ -88,22 +88,22 @@ def stop(tim):
 def search():
       global xxx
       if (xxx == 1):
-            left(0.3)
+            left(0.1)
             print("search_left")
              
       if(xxx==2):
             
-            forward(0.3)
+            forward(0.1)
             print("search_Forward")    
         
       if (xxx==3):
-            right(0.3)
+            right(0.1)
             print("search_Right")
            
 
       if(xxx==4):
             
-            forward(0.3)
+            forward(0.1)
             print("search_Forward")    
             xxx = 1
            
@@ -121,32 +121,32 @@ def checkir():
         left(0)
         print("ir .........left sabai ir ")
     if(ir11>0 and ir22>0):
-        right(0.5)
+        right(0.3)
         print("ir .........right 1 ra 2 ")
     if(ir22>0 and ir33>0):
-        forward(0.5)
+        forward(0.3)
         print("ir .........forward 2 ra 3 ")
     if(ir33>0 and ir44>0):
-        left(0.5)
+        left(0.3)
         print("ir .........left 3 ra 4 ")
     if(ir11>0 and ir44>0):
-        reverse()
+        reverse(0.3)
         print("ir .........reverse 1 ra 4")
     if(ir11>0):
-        right(0.5)
+        right(0.3)
         print("ir .........right ")
         print("ir11 matrai")
         
     if(ir22>0):
-        forward(0.5)
+        forward(0.3)
         print("ir .........forward ")
         print("ir22 atrai ")
     if(ir33>0):
-        forward(0.5)
+        forward(0.3)
         print("ir .........forward ")
         print("3 matrai ")
     if(ir44>0):
-        left(0.5)
+        left(0.3)
         print("ir .........left ")
         print("4 matrai ")
         
@@ -156,6 +156,33 @@ def checkir():
 
 
 ##############################
+def segment_bluecolour(frame): 
+    hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    mask_1 = cv2.inRange(hsv_roi, np.array([26,88,98]), np.array([240,125,125]))
+    ycr_roi=cv2.cvtColor(frame,cv2.COLOR_BGR2YCrCb)
+    mask_2=cv2.inRange(ycr_roi, np.array((240,43,113)), np.array((208,88,119)))
+    mask = mask_1 | mask_2
+    kern_dilate = np.ones((8,8),np.uint8)
+    kern_erode  = np.ones((3,3),np.uint8)
+    mask= cv2.erode(mask,kern_erode)      #Eroding
+    mask=cv2.dilate(mask,kern_dilate)     #Dilating
+    cv2.imshow('bluemask',mask)
+    return mask   #rato color ko mask send garni
+
+def segment_greencolour(frame): 
+    hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    mask_1 = cv2.inRange(hsv_roi, np.array([178,84,118]), np.array([88,84,118]))
+    ycr_roi=cv2.cvtColor(frame,cv2.COLOR_BGR2YCrCb)
+    mask_2=cv2.inRange(ycr_roi, np.array((88,85,63)), np.array((174,85,63)))
+    mask = mask_1 | mask_2
+    kern_dilate = np.ones((8,8),np.uint8)
+    kern_erode  = np.ones((3,3),np.uint8)
+    mask= cv2.erode(mask,kern_erode)      #Eroding
+    mask=cv2.dilate(mask,kern_dilate)     #Dilating
+    cv2.imshow('greenmask',mask)
+    return mask   #rato color ko mask send garni
+
+        
 ############################
 
 
@@ -205,12 +232,19 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
       mask_red=segment_redcolour(frame)      #masking garnu paro red color ya bata
       loct,area=find_blob(mask_red)
+
+      mask_blue=segment_bluecolour(frame)
+      loctb,areab=find_blob(mak_blue)
+
+      mask_green=segment_greencolour(frame)
+      loctg,areag=find_blob(mask_green)
+      
       x,y,w,h=loct 
 
       if (w*h) < 10:  #area kati rakhni ta??
             found=0
       else:
-            found=1
+            found=0
             simg2 = cv2.rectangle(frame, (x,y), (x+w,y+h), 255,2)
 
 
@@ -223,8 +257,8 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       if(found==0):   
             print("vetena")
             checkir()
-            #search()
-            stop(0.1)
+            search()
+            stop(0.05)
             
             
     
