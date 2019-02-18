@@ -153,7 +153,27 @@ def checkir():
     
 
         
-
+def checkobs():
+    global x1, y1, w1, h1, x2,y2, w2,h2
+    
+    if (x1+w1<320 or x2+w2<320):
+        ca=1
+        
+    if (x1<320 or x2<320):
+        ca=2
+    if ca is 1:
+        if(w1*h1 > 650000 or w2*h2>65000 ):
+            right(0.5)
+            print("obstacle detect garera right gayo ")
+    if ca is 2:
+        
+        if(w1*h1 > 650000 or w2*h2>65000 ):
+            left(0.5)
+            print("obstacle detect garera let gayo ")
+    elif(w1*h1>130000 or w2*h2>130000):
+        reverse(0.5)
+        print("agadai nai obsctacle xa so reverse ")
+    
 
 ##############################
 def segment_bluecolour(frame): 
@@ -164,10 +184,10 @@ def segment_bluecolour(frame):
     mask = mask_1 | mask_2
     kern_dilate = np.ones((8,8),np.uint8)
     kern_erode  = np.ones((3,3),np.uint8)
-    mask= cv2.erode(mask,kern_erode)      #Eroding
-    mask=cv2.dilate(mask,kern_dilate)     #Dilating
+    mask= cv2.erode(mask,kern_erode)
+    mask=cv2.dilate(mask,kern_dilate)    
     cv2.imshow('bluemask',mask)
-    return mask   #rato color ko mask send garni
+    return mask  
 
 def segment_greencolour(frame): 
     hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -177,10 +197,10 @@ def segment_greencolour(frame):
     mask = mask_1 | mask_2
     kern_dilate = np.ones((8,8),np.uint8)
     kern_erode  = np.ones((3,3),np.uint8)
-    mask= cv2.erode(mask,kern_erode)      #Eroding
-    mask=cv2.dilate(mask,kern_dilate)     #Dilating
+    mask= cv2.erode(mask,kern_erode)      
+    mask=cv2.dilate(mask,kern_dilate)     
     cv2.imshow('greenmask',mask)
-    return mask   #rato color ko mask send garni
+    return mask 
 
         
 ############################
@@ -234,25 +254,34 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       loct,area=find_blob(mask_red)
 
       mask_blue=segment_bluecolour(frame)
-      loctb,areab=find_blob(mak_blue)
+      loctb,areab=find_blob(mask_blue)
 
-      mask_green=segment_greencolour(frame)
-      loctg,areag=find_blob(mask_green)
+      #mask_green=segment_greencolour(frame)
+      #loctg,areag=find_blob(mask_green)
       
-      x,y,w,h=loct 
+      x,y,w,h=loct
+      x1,y1,w1,h1=loctb
+      x2,y2,w2,h2=loctg
+      
 
       if (w*h) < 10:  #area kati rakhni ta??
             found=0
       else:
-            found=0
+            found=1
             simg2 = cv2.rectangle(frame, (x,y), (x+w,y+h), 255,2)
+            simg2 = cv2.rectangle(frame, (x1,y1), (x1+w1,y1+h1), 150,2)
+            simg2 = cv2.rectangle(frame, (x2,y2), (x2+w2,y2+h2), 50,2)
+            
 
 
 
       ir11=GPIO.input(ir1)
       ir22=GPIO.input(ir2)
       ir33=GPIO.input(ir3)
-      ir44=GPIO.input(ir4)      
+      ir44=GPIO.input(ir4)
+
+      
+      checkobs()
       #GPIO.output(LED_PIN,GPIO.LOW)  
       if(found==0):   
             print("vetena")
@@ -261,7 +290,6 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             stop(0.05)
             
             
-    
       elif(found==1):
             print("vetyo")
             if(x<215):
