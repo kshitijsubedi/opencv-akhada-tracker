@@ -256,14 +256,16 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
       mask_blue=segment_bluecolour(frame)
       loctb,areab=find_blob(mask_blue)
 
-      #mask_green=segment_greencolour(frame)
-      #loctg,areag=find_blob(mask_green)
+      mask_green=segment_greencolour(frame)
+      loctg,areag=find_blob(mask_green)
       
       x,y,w,h=loct
       x1,y1,w1,h1=loctb
       x2,y2,w2,h2=loctg
       
-
+      print(x,y,w,h)
+      print(x1,y1,w1,h1)
+      print(x2,y2,w2,h2)
       if (w*h) < 10:  #area kati rakhni ta??
             found=0
       else:
